@@ -8,50 +8,67 @@ router.get('/', (req, res) => {
 });
 
 // Listing the Notes
-router.get('/listNotes', (req, res) => {
-    res.status(200).send(notes.loadNotes());
+router.get('/list', (req, res) => {
+    notes.loadNotes().then((data) =>{
+        res.status(200).send(data);
+    }).catch((err) =>{
+        res.status(400).send(err);
+        console.log(err);
+    })
 });
 
 // Adding the Notes
-router.post('/addNotes', (req, res) => {
-    try{
-        notes.addNotes(req.body.title, req.body.body);
-        res.status(201).json({
-            message: 'Note Added Successfully!'
-        });
-    }catch(err){
-        res.status(500).json({
-            message: err.message
-        });
-    }
+router.post('/add', (req, res) => {
+    notes.addNotes(req.body.title, req.body.body, (flag, message)=>{
+        if(flag){
+            res.status(201).json({
+                message: message,
+                status: flag
+            });
+        }
+        else{
+            res.status(409).json({
+                message: message,
+                status: flag
+            });
+        }
+    });
 });
 
 // Modifying a Note
-router.put('/modifyNote', (req, res) => {
-    try{
-        notes.modifyNote(req.body.title, req.body.body);
-        res.status(200).json({
-            message: 'Note Modified Successfully!'
-        });
-    }catch(err){
-        res.status(500).json({
-            message: err.message
-        });
-    }
+router.put('/modify', (req, res) => {
+    notes.modifyNote(req.body.title, req.body.body, (flag, message)=>{
+        if(flag){
+            res.status(200).json({
+                message: message,
+                status: flag
+            });
+        }
+        else{
+            res.status(400).json({
+                message: message,
+                status: flag
+            });
+        }
+    });
 });
 
 // Deleting a Note
-router.delete('/removeNote', (req, res) => {
-    try{
-        notes.removeNote(req.body.title);
-        res.status(200).json({
-            message: 'Note Removed Successfully!'
-        });
-    }catch(err){
-        res.status(500).json({
-            message: err.message
-        });
-    }
+router.delete('/remove', (req, res) => {
+    notes.removeNote(req.body.title, (flag, message)=>{
+        if(flag){
+            res.status(200).json({
+                message: message,
+                status: flag
+            });
+        }
+        else{
+            res.status(400).json({
+                message: message,
+                status: flag
+            });
+        }
+    });
 });
 
 // For accessing any other url, this will work
