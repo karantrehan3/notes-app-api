@@ -9,8 +9,8 @@
 
 #### To run the Application, Follow the given steps: -
 1. Clone the repository.
-2. Run the command 'npm install' in the terminal to load all the libraries needed to run the code.
-3. Run the coomand 'node app' to run the application.
+2. Run the command 'npm install' in the terminal to install all the libraries needed to run the code.
+3. Run the command 'node app' to run the application.
 
 #### Using the Application: 
 * Open Postman
