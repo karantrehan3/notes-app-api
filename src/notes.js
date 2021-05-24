@@ -58,7 +58,7 @@ const addNotes = async (title, body) => {
         }
         return false;
     } catch (err) {
-        console.error(err);
+        return Promise.reject(err);
     }
 };
 
@@ -89,7 +89,7 @@ const modifyNote = async (title, newBody) => {
             return true;
         }
     } catch (err) {
-        console.error(err);
+        return Promise.reject(err);
     }
 };
 
@@ -115,7 +115,7 @@ const removeNote = async (title) => {
             return true;
         }
     } catch (err) {
-        console.error(err);
+        return Promise.reject(err);
     }
 };
 
