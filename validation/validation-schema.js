@@ -1,5 +1,6 @@
 const { body } = require("express-validator");
 
+//Defining the Schema for Add and Modify functions
 const schema = [
     body("title")
         .exists()
@@ -19,6 +20,7 @@ const schema = [
         .withMessage("Body must be a String Value"),
 ];
 
+//Defining the Schema for Delete function
 const delSchema = [
     body("title")
         .exists()
