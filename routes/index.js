@@ -8,12 +8,12 @@ const {
 const router = express.Router();
 
 // Welcome Page
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
     res.send("<h1>Welcome to Notes App!</h1>");
 });
 
 // Listing the Notes
-router.get("/list", (req, res) => {
+router.get("/list", async (req, res) => {
     notes
         .loadNotes()
         .then((data) => {
@@ -26,7 +26,7 @@ router.get("/list", (req, res) => {
 });
 
 // Adding the Notes
-router.post("/add", schema, validateAddModSchema, (req, res) => {
+router.post("/add", schema, validateAddModSchema, async (req, res) => {
     notes
         .addNotes(req.body.title, req.body.body)
         .then((flag) => {
@@ -51,7 +51,7 @@ router.post("/add", schema, validateAddModSchema, (req, res) => {
 });
 
 // Modifying a Note
-router.put("/modify", schema, validateAddModSchema, (req, res) => {
+router.put("/modify", schema, validateAddModSchema, async (req, res) => {
     notes
         .modifyNote(req.body.title, req.body.body)
         .then((flag) => {
@@ -79,7 +79,7 @@ router.put("/modify", schema, validateAddModSchema, (req, res) => {
 });
 
 // Deleting a Note
-router.delete("/remove", delSchema, validateDelSchema, (req, res) => {
+router.delete("/remove", delSchema, validateDelSchema, async (req, res) => {
     notes
         .removeNote(req.body.title)
         .then((flag) => {
@@ -107,7 +107,28 @@ router.delete("/remove", delSchema, validateDelSchema, (req, res) => {
 });
 
 // For accessing any other url, this will work
-router.get("*", (req, res) => {
+router.get("*", async (req, res) => {
+    res.status(404).json({
+        error: "404 Page Not Found!",
+        status: false,
+    });
+});
+
+router.post("*", async (req, res) => {
+    res.status(404).json({
+        error: "404 Page Not Found!",
+        status: false,
+    });
+});
+
+router.put("*", async (req, res) => {
+    res.status(404).json({
+        error: "404 Page Not Found!",
+        status: false,
+    });
+});
+
+router.delete("*", async (req, res) => {
     res.status(404).json({
         error: "404 Page Not Found!",
         status: false,
