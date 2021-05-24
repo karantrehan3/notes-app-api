@@ -29,7 +29,7 @@ const saveNotes = async (notes) => {
 
 /**
  * addNotes function calls loadNotes function which reads and
- * loads the JSON file and then returns it as a promise. Then
+ * loads the JSON file and then returns it. Then
  * a check is performed to find if a note with the same title
  * already exists. If not, then a note object is created and
  * pushed to the notes array and then the saveNotes function
@@ -64,7 +64,7 @@ const addNotes = async (title, body) => {
 
 /**
  * modifyNote function calls loadNotes function which reads and
- * loads the JSON file and then returns it as a promise. Then we
+ * loads the JSON file and then returns it. Then we
  * try to find the index of the note with the given title in the
  * notes array. If an index is not found then a boolean false value
  * is retuned Otherwise, the body of the note found is replaced by
@@ -95,12 +95,12 @@ const modifyNote = async (title, newBody) => {
 
 /**
  * removeNote function firstly calls loadNotes function which reads and
- * loads the JSON file and then returns it as a promise. Then it filters
+ * loads the JSON file and then returns it. Then it filters
  * out the objects which don't match with the title. After that, a check
  * is performed that if the length of the original notes array is same as
- * the length of the filtered array. If yes, then a false value and a
- * custom error message is sent through the callBack. Otherwise the new
- * notes array is saved in the notes.JSON File.
+ * the length of the filtered array. If yes, then a boolean false value is
+ * returned. Otherwise the new notes array is saved in the notes.JSON File
+ * and a true value is returned.
  * @param {string} title
  */
 const removeNote = async (title) => {
