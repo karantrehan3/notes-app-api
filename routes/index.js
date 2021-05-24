@@ -14,96 +14,82 @@ router.get("/", async (req, res) => {
 
 // Listing the Notes
 router.get("/list", async (req, res) => {
-    notes
-        .loadNotes()
-        .then((data) => {
-            res.status(200).send(data);
-        })
-        .catch((err) => {
-            res.status(500).send(err);
-            console.log(err);
-        });
+    try {
+        const data = await notes.loadNotes();
+        res.status(200).send(data);
+    } catch (err) {
+        res.status(500).send(err);
+        console.log(err);
+    }
 });
 
 // Adding the Notes
 router.post("/add", schema, validateAddModSchema, async (req, res) => {
-    notes
-        .addNotes(req.body.title, req.body.body)
-        .then((flag) => {
-            if (flag) {
-                res.status(201).json({
-                    message: "Note Added Successfully",
-                    status: flag,
-                });
-            } else {
-                res.status(409).json({
-                    error: "Note with the same title Exists, Cannot Add Notes with same titles!",
-                    status: flag,
-                });
-            }
-        })
-        .catch((err) => {
-            res.status(500).json({
-                message: err.message,
-                status: false,
+    try {
+        const flag = await notes.addNotes(req.body.title, req.body.body);
+        if (flag) {
+            res.status(201).json({
+                message: "Note Added Successfully",
+                status: flag,
             });
+        } else {
+            res.status(409).json({
+                error: "Note with the same title Exists, Cannot Add Notes with same titles!",
+                status: flag,
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
+            message: err.message,
+            status: false,
         });
+    }
 });
 
 // Modifying a Note
 router.put("/modify", schema, validateAddModSchema, async (req, res) => {
-    notes
-        .modifyNote(req.body.title, req.body.body)
-        .then((flag) => {
-            if (flag) {
-                res.status(200).json({
-                    message: "Note Modified Successfully!",
-                    status: flag,
-                });
-            } else {
-                res.status(400).json({
-                    error:
-                        "Note with title: `" +
-                        req.body.title +
-                        "` not present!",
-                    status: flag,
-                });
-            }
-        })
-        .catch((err) => {
-            res.status(500).json({
-                message: err.message,
-                status: false,
+    try {
+        const flag = await notes.modifyNote(req.body.title, req.body.body);
+        if (flag) {
+            res.status(200).json({
+                message: "Note Modified Successfully!",
+                status: flag,
             });
+        } else {
+            res.status(400).json({
+                error: "Note with title: `" + req.body.title + "` not present!",
+                status: flag,
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
+            message: err.message,
+            status: false,
         });
+    }
 });
 
 // Deleting a Note
 router.delete("/remove", delSchema, validateDelSchema, async (req, res) => {
-    notes
-        .removeNote(req.body.title)
-        .then((flag) => {
-            if (flag) {
-                res.status(200).json({
-                    message: "Note Removed Successfully!",
-                    status: flag,
-                });
-            } else {
-                res.status(400).json({
-                    error:
-                        "Note with title: `" +
-                        req.body.title +
-                        "` not present!",
-                    status: flag,
-                });
-            }
-        })
-        .catch((err) => {
-            res.status(500).json({
-                message: err.message,
-                status: false,
+    try {
+        const flag = await notes.removeNote(req.body.title);
+        if (flag) {
+            res.status(200).json({
+                message: "Note Removed Successfully!",
+                status: flag,
             });
+        } else {
+            res.status(400).json({
+                error: "Note with title: `" + req.body.title + "` not present!",
+                status: flag,
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
+            message: err.message,
+            status: false,
         });
+    }
 });
 
 // For accessing any other url, this will work
